@@ -1,9 +1,8 @@
 #include <iostream>
-#include <cmath>
 
 using namespace std;
 
-double x[10000], y[10000];
+int x[10000], y[10000];
 
 int main(){
 	int n; 
@@ -19,7 +18,7 @@ int main(){
 	int i = n-1;
 
 	for(int j=0; j<n; j++){
-		ret += x[i]*y[j]  - x[j]*y[i];
+		ret += (long long)x[i]*y[j]  - (long long)x[j]*y[i];
 		i = j;
 	}
 	
