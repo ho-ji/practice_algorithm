@@ -47,7 +47,7 @@ int main(){
 	for(int i=0; i< 9; i++){
 		for(int j=0; j<9; j++){
 			cin >> input;
-			board[i][j] = input	-'0';
+			board[i][j] = input -'0';
 			if(board[i][j]==0){
 				list.push_back(pos(i,j));
 			}
