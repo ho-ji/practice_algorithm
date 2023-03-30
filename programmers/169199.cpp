@@ -15,6 +15,7 @@ int solution(vector<string> board) {
         for(int j=0; j<colN; j++){
             if(board[i][j] == 'R'){
                 pos_robot = make_pair(i, j);
+                board[i][j] = 'c';
                 break;
             }
         }
