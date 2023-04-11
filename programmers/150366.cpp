@@ -31,7 +31,6 @@ void mergeCell(int x1, int y1, int x2, int y2){
     for(int i=1; i<51; i++){
       for(int j=1; j<51; j++){
         if(parent[i][j] == r1){
-          board[i][j] = "M";
           parent[i][j] = r2;
         }
       }
@@ -41,7 +40,6 @@ void mergeCell(int x1, int y1, int x2, int y2){
     for(int i=1; i<51; i++){
       for(int j=1; j<51; j++){
         if(parent[i][j] == r2){
-          board[i][j] = "M";
           parent[i][j] = r1;
         }
       }
@@ -95,12 +93,4 @@ vector<string> solution(vector<string> commands) {
       }
     }
     return answer;
-}
-
-int main(){
-  vector<string> answer;
-  answer = solution({"MERGE 1 1 2 2","PRINT 1 1", "UPDATE 1 2", "UPDATE 1 1 nu", "PRINT 2 2"});
-
-  for(auto a: answer)
-    cout << a << endl;
 }
