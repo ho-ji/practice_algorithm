@@ -1,58 +1,55 @@
 #include <string>
 #include <vector>
-#include <queue>
 #include <iostream>
-#include <algorithm>
 
 using namespace std;
 
 string solution(int n, int m, int x, int y, int r, int c, int k) {
-    string answer = "";
-    vector <string> answerList;
-    queue <string> dir;
-    queue <pair<int,int>> pos;
+  string answer = "";
+  int curX = x, curY = y;
+  int leftDistance = abs(x-r) + abs(y-c);
+  if(leftDistance > k || (k-leftDistance)%2 == 1){
+    return "impossible";
+  }
 
-    dir.push("");
-    pos.push({x-1,y-1});
+  int moves[2][2] = {{1,0}, {0,-1}}; // d l
+  char moveChar[2] = {'d', 'l'};
 
-    int moves[4][2] = {{1,0}, {0,1}, {-1,0}, {0,-1}};
-    char movesChar[4][1] = {{'d'},{'r'},{'u'},{'l'}};
-    while(!pos.empty()){
-      string s = dir.front();
-      int nx = pos.front().first;
-      int ny = pos.front().second;
-      if(s.length() == k){
-        if(nx == r-1 && ny == c-1){
-          answerList.push_back(s);
-        }
+  for(int i=0; i<2; i++){
+    while(leftDistance < k){
+      int nx = curX + moves[i][0];      
+      int ny = curY + moves[i][1];
+      if(nx > 0 && nx <= n && ny > 0 && ny<= m){
+        curX = nx;
+        curY = ny;
+        leftDistance = abs(curX-r) + abs(curY-c);
+        answer += moveChar[i];
+        k--;
       }
       else{
-        for(int i=0; i<4; i++){
-          int mx = nx + moves[i][0];
-          int my = ny + moves[i][1];
-          string ns = s + movesChar[i][0];
-
-          if(mx >=0 && mx < n && my >=0 && my < m){
-            pos.push({mx,my});
-            dir.push(ns);
-          }
-        }
-      }
-      pos.pop();
-      dir.pop();
+        break;
+      }    
     }
-    if(answerList.size() == 0){
-      answer = "impossible";
-    }
-    else{
-      sort(answerList.begin(), answerList.end());
-      answer = answerList[0];
-    }
-    return answer;
-}
-
-int main(){
-  string answer = solution(3,4,2,3,3,1,5);
-  cout << answer << endl;
-  return 0;
+  }
+  while(leftDistance < k){
+    k-=2;
+    answer += "rl";
+  }
+  while(curX < r){
+    answer += 'd';
+    curX++;
+  }
+  while(curY > c){
+    answer += 'l';
+    curY--;
+  }
+  while(curY < c){
+    answer += 'r';
+    curY++;
+  }
+  while(curX > r){
+    answer += 'u';
+    curX--;
+  }
+  return answer;
 }
