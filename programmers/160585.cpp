@@ -1,58 +1,72 @@
 #include <string>
 #include <vector>
+#include <queue>
 #include <iostream>
 
 using namespace std;
 
-int solution(vector<string> board) {
-    int answer = -1;
-    int cntO = 0, cntX = 0;
-    for(int i=0; i<3; i++){
-        for(int j=0; j<3; j++){
-            if(board[i][j] == 'O')
-                cntO++;
-            else if(board[i][j] == 'X')
-                cntX++;
+struct Pos{
+  int x;
+  int y;
+  int cnt;
+  Pos(int a, int b, int c){
+    x = a; y = b; cnt = c;
+  }
+};
+
+int solution(vector<string> maps) {
+    int answer = 0;
+    Pos start(0,0,0), end(0,0,0);
+
+    for(int i=0; i<maps.size(); i++){
+      for(int j=0; j<maps[0].size(); j++){
+        if(maps[i][j] == 'S'){
+          start.x = i; start.y = j;
         }
-    }
-    if(cntO != cntX && cntO != cntX + 1)
-        return 0;
-    
-    int winO = 0, winX = 0;
-      
-    for(int i=0; i<3; i++){
-      if(board[i][0] == board[i][1] && board[i][0] == board[i][2]){
-        if(board[i][0] == 'O')
-          winO++;
-        else if(board[i][0] == 'X')
-          winX++;
-      }
-      if(board[0][i] == board[1][i] && board[0][i] == board[2][i]){
-        if(board[0][i] == 'O')
-          winO++;
-        else if(board[0][i] == 'X')
-          winX++;
+        else if(maps[i][j] == 'E'){
+          end.x = i; end.y = j;
+        }
       }
     }
-    if(board[0][0] == board[1][1] && board[0][0] == board[2][2]){
-      if(board[0][0] == 'O')
-        winO++;
-      else if(board[0][0] == 'X')
-        winX++;
-    }
-    if(board[0][2] == board[1][1] && board[0][2] == board[2][0]){
-      if(board[0][2] == 'O')
-        winO++;
-      else if(board[0][2] == 'X')
-        winX++;
-    }
-    
-    if(winX !=0 && winO != 0)
-        return 0;
-    if(winO != 0 && cntO == cntX)
-        return 0;
-    if(winX != 0 && cntO == cntX + 1)
-        return 0;
-    
-    return 1;
+
+    queue<Pos> q;
+    q.push(start);
+
+    int moves[4][2] = {{0,1}, {1,0}, {-1,0}, {0,-1}};
+    char ck = 'V';
+    while(!q.empty()){
+      int x = q.front().x;
+      int y = q.front().y;
+      int cnt = q.front().cnt;
+      cout << x << " " << y << endl;
+
+      for(int i=0; i<4; i++){
+        int nx = x + moves[i][0];
+        int ny = y + moves[i][1];
+        int ncnt = cnt + 1;
+        if(nx>=0 && nx<maps.size() && ny>=0 && ny<maps[i].size() && maps[nx][ny] != 'X' && maps[nx][ny] != ck){
+          if(maps[nx][ny] == 'L'){
+            while(!q.empty()) q.pop();
+            q.push(Pos(x,y,cnt));
+            q.push(Pos(nx,ny,ncnt));
+            ck = 'W';
+          }
+          else if(nx == end.x && ny == end.y && ck =='W'){
+            return ncnt;
+          }
+          else{
+            q.push(Pos(nx,ny,ncnt));
+          }
+          maps[nx][ny] = ck;
+        }
+      }
+      q.pop();
+    }    
+    return -1;
+}
+
+int main() {
+  vector<string> maps = 	{"SOOOL", "XXXXO", "OOOOO", "OXXXX", "OOOOE"};
+  cout << solution(maps)<< endl;
+  return 0;
 }
