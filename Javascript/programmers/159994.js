@@ -4,8 +4,8 @@ function solution(cards1, cards2, goal) {
     pos2 = -1;
 
   for (const g of goal) {
-    if (pos1 + 1 == cards1.indexOf(g)) pos1++;
-    else if (pos2 + 1 == cards2.indexOf(g)) pos2++;
+    if (cards1[pos1 + 1] === g) pos1++;
+    else if (cards2[pos2 + 1] === g) pos2++;
     else {
       answer = "No";
       break;
