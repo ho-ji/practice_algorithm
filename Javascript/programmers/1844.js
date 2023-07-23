@@ -25,7 +25,7 @@ function solution(maps) {
         }
         x.push(mx);
         y.push(my);
-        maps[mx][my] = 2;
+        maps[mx][my] = maps[nx][ny] + 1;
       }
     }
   }
