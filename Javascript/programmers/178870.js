@@ -1,20 +1,19 @@
 function solution(sequence, k) {
-  let answer = []
+  let answer = [0, 1000000]
   let start = 0,
     end = 0,
-    sum = 0
-  for (let i = 0; i < sequence.length; i++) {
-    sum += sequence[i]
-    end = i
-    while (sum > k) {
-      sum -= sequence[start++]
-    }
+    sum = sequence[0]
+  while (end < sequence.length) {
     if (sum === k) {
-      if (answer.length === 0 || answer[1] - answer[0] > end - start) {
+      if (answer[1] - answer[0] > end - start) {
         answer = [start, end]
       }
-      start = i + 1
-      sum = 0
+      sum -= sequence[start++]
+      sum += sequence[++end]
+    } else if (sum > k) {
+      sum -= sequence[start++]
+    } else {
+      sum += sequence[++end]
     }
   }
   return answer
