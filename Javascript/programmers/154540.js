@@ -6,22 +6,24 @@ function solution(maps) {
     [0, -1],
     [-1, 0],
   ]
-  for (let i = 0; i < maps.length; i++) {
-    for (let j = 0; j < maps[0].length; j++) {
-      if (maps[i][j] !== 'X') {
-        let visit = []
-        let sum = +maps[i][j]
-        maps[i][j] = 'X'
-        visit.push([i, j])
-        while (!visit.empty) {
-          let [x, y] = visit.pop()
+  let newMaps = []
+  maps.forEach((v) => newMaps.push(v.split('')))
+  for (let i = 0; i < newMaps.length; i++) {
+    for (let j = 0; j < newMaps[0].length; j++) {
+      if (newMaps[i][j] !== 'X') {
+        let visited = []
+        let sum = +newMaps[i][j]
+        visited.push([i, j])
+        while (visited.length !== 0) {
+          let [x, y] = visited.pop()
+          newMaps[x][y] = 'X'
           for (let k = 0; k < 4; k++) {
             let mx = x + move[k][0]
             let my = y + move[k][1]
-            if (mx >= 0 && mx < maps.length && my >= 0 && my < maps[0].length && maps[mx][my] !== 'X') {
-              visit.push([mx, my])
-              sum += +maps[mx][my]
-              maps[mx][my] = 'X'
+            if (mx >= 0 && mx < newMaps.length && my >= 0 && my < newMaps[0].length && newMaps[mx][my] !== 'X') {
+              visited.push([mx, my])
+              sum += +newMaps[mx][my]
+              newMaps[mx][my] = 'X'
             }
           }
         }
@@ -29,5 +31,6 @@ function solution(maps) {
       }
     }
   }
+  if (answer.length === 0) return [-1]
   return answer.sort((a, b) => a - b)
 }
