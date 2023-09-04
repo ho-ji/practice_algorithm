@@ -1,41 +1,22 @@
-class Queue {
-  constructor() {
-    this.queue = {}
-    this.check = []
-    this.front = 0
-    this.rear = 0
-  }
-  size() {
-    return this.queue[this.rear - 1] ? this.rear - this.front : 0
-  }
-  enqueue(data) {
-    if (!this.check[data[0]]) {
-      this.queue[this.rear++] = data
-      this.check[data[0]] = true
-    }
-  }
-  dequeue() {
-    let data = this.queue[this.front]
-    delete this.queue[this.front]
-    this.front++
-    return data
-  }
-}
-
 function solution(x, y, n) {
-  let answer = -1
-  let list = new Queue()
-  list.enqueue([x, 0])
-
   if (x === y) return 0
-  while (list.size() !== 0) {
-    let [num, count] = list.dequeue()
-
-    if (num === y) return count
-    if (num + n <= y) list.enqueue([num + n, count + 1])
-    if (num * 2 <= y) list.enqueue([num * 2, count + 1])
-    if (num * 3 <= y) list.enqueue([num * 3, count + 1])
+  const dp = {}
+  dp[x] = 0
+  let dataList = [x]
+  while (dataList.length !== 0) {
+    const newDataList = []
+    for (const data of dataList) {
+      for (const value of [data + n, data * 2, data * 3]) {
+        if (!dp[value]) {
+          if (value === y) return dp[data] + 1
+          else if (value < y) {
+            dp[value] = dp[data] + 1
+            newDataList.push(value)
+          }
+        }
+      }
+    }
+    dataList = newDataList
   }
-
-  return answer
+  return -1
 }
