@@ -3,8 +3,9 @@ function solution(word) {
   let wordList = ['A', 'E', 'I', 'O', 'U']
   let count = 0
   const DFS = (str) => {
-    console.log(str === word)
-    if (str === word) return
+    if (str === word) {
+      answer = count
+    }
     if (str.length < 5) {
       for (let i = 0; i < 5; i++) {
         count++
@@ -13,5 +14,5 @@ function solution(word) {
     }
   }
   DFS('')
-  return count
+  return answer
 }
