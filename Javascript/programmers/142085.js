@@ -15,6 +15,10 @@ class MaxHeap {
   pop() {
     const max = this.heap[1]
     this.heap[1] = this.heap.pop()
+    if (this.heap.length === 2) {
+      this.heap = [null]
+      return max
+    }
     let currentIndex = 1
     let leftIndex = 2
     let rightIndex = 3
@@ -31,9 +35,6 @@ class MaxHeap {
     }
     return max
   }
-  isEmpty() {
-    return this.heap.length === 1
-  }
 }
 function solution(n, k, enemy) {
   let successRound = new MaxHeap()
@@ -44,7 +45,7 @@ function solution(n, k, enemy) {
       if (k > 0) {
         k--
         n += successRound.pop()
-      } else return i + 1
+      } else return i
     }
   }
   return enemy.length
