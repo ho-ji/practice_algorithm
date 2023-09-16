@@ -1,26 +1,24 @@
 function solution(topping) {
-  let answer = 0
-  let left = {},
-    leftCount = 1
-  let right = {},
-    rightCount = 0
+  const cutRollCake = new Set()
+  const toppingList = {}
 
-  left[topping[0]] = 1
-  for (let i = 1; i < topping.length; i++) {
-    if (!right[topping[i]]) {
-      rightCount++
-      right[topping[i]] = 0
+  let answer = 0
+  let toppingCount = 0
+
+  for (const t of topping) {
+    if (!toppingList[t]) {
+      toppingList[t] = 0
+      toppingCount++
     }
-    right[topping[i]]++
+    toppingList[t]++
   }
-  for (let i = 1; i < topping.length; i++) {
-    if (leftCount === rightCount) answer++
-    if (!left[topping[i]] || left[topping[i]] === 0) {
-      leftCount++
-      left[topping[i]] = 0
-    }
-    left[topping[i]]++
-    if (--right[topping[i]] === 0) rightCount--
+
+  for (const t of topping) {
+    cutRollCake.add(t)
+    toppingList[t]--
+
+    if (!toppingList[t]) toppingCount--
+    if (cutRollCake.size === toppingCount) answer++
   }
 
   return answer
