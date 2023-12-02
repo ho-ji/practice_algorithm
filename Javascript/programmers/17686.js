@@ -1,20 +1,15 @@
 const solution = (files) => {
   const answer = [...files]
+  const regex = /(\D*)(\d*)/
   answer.sort((a, b) => {
-    const headA = a
-      .split(/\d/)
-      .filter((x) => x)[0]
-      .toUpperCase()
-    const headB = b
-      .split(/\d/)
-      .filter((x) => x)[0]
-      .toUpperCase()
+    const regA = a.match(regex)
+    const regB = b.match(regex)
+    const headA = regA[1].toUpperCase()
+    const headB = regB[1].toUpperCase()
     if (headA === headB) {
-      let numA = parseInt(a.split(/\D/).filter((x) => x)[0])
-      let numB = parseInt(b.split(/\D/).filter((x) => x)[0])
-      return numA - numB
+      return parseInt(reg1[2]) - parseInt(reg2[2])
     }
-    return headA > headB ? 1 : -1
+    return headA - headB ? 1 : -1
   })
   return answer
 }
