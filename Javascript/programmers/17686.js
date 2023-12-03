@@ -7,9 +7,9 @@ const solution = (files) => {
     const headA = regA[1].toUpperCase()
     const headB = regB[1].toUpperCase()
     if (headA === headB) {
-      return parseInt(reg1[2]) - parseInt(reg2[2])
+      return parseInt(regA[2]) - parseInt(regB[2])
     }
-    return headA - headB ? 1 : -1
+    return headA > headB ? 1 : -1
   })
   return answer
 }
