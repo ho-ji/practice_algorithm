@@ -32,8 +32,7 @@ const solution = (fees, records) => {
     let fee = fees[1]
     time[i] -= fees[0]
     if (time[i] > 0) {
-      fee += Math.floor(time[i] / fees[2]) * fees[3]
-      console.log(Math.floor(time[i] / fees[2]))
+      fee += Math.ceil(time[i] / fees[2]) * fees[3]
     }
     answer.push(fee)
   }
